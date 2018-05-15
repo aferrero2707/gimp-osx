@@ -20,8 +20,8 @@ export LIBRARY_PATH="$LD_LIBRARY_PATH"
 
 export LIBTOOLIZE=glibtoolize
 
-brew install intltool gettext json-glib
-brew info json-glib glib
+brew install intltool gettext json-glib glib-networking gexiv2
+brew info json-glib glib glib-networking gexiv2
 
 ls $HOME/homebrew/opt
 ls $HOME/homebrew/opt/gettext/bin
