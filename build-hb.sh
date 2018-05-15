@@ -20,8 +20,10 @@ export LIBRARY_PATH="$LD_LIBRARY_PATH"
 
 export LIBTOOLIZE=glibtoolize
 
-brew install intltool
+brew install intltool gettext
 
+ls $HOME/homebrew/opt
+ls $HOME/homebrew/opt/gettext/bin
 which autopoint
 which gcc
 which libtool
