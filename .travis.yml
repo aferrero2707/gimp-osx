@@ -14,7 +14,7 @@ env:
   CACHEFILE=homebrew-cache-pf-step6.tar.gz
   CACHEURL=https://github.com/aferrero2707/pf-build-osx/releases/download/continuous/$CACHEFILE
 before_script:
-- curl -L $CACHEURL > $CACHEFILE && tar xzf $CACHEFILE && rm -f $CACHEFILE
+- (cd $HOME && curl -L $CACHEURL -O && tar xzf $CACHEFILE && rm -f $CACHEFILE)
 - ./build-hb.sh
 - wget -c https://github.com/aferrero2707/uploadtool/raw/master/upload_rotate.sh
 #- bash  ./upload_rotate.sh "continuous" $HOME/gimp-osx-*.dmg > /dev/null;
