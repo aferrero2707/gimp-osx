@@ -22,6 +22,8 @@ export LIBTOOLIZE=glibtoolize
 
 brew install intltool gettext json-glib glib-networking gexiv2
 brew info json-glib glib glib-networking gexiv2
+brew install --HEAD babl
+brew install --HEAD gegl
 
 ls $HOME/homebrew/opt
 ls $HOME/homebrew/opt/gettext/bin
@@ -45,15 +47,15 @@ fi
 (cd mypaint-brushes && ./autogen.sh && ./configure --prefix=${instdir} && make install) || exit 1
 
 
-if [ ! -e babl ]; then
-	(git clone https://git.gnome.org/browse/babl) || exit 1
-fi
-(cd babl && CC="/usr/bin/gcc" CFLAGS="-I $HOME/homebrew/include -I /usr/X11/include" CXXFLAGS="-I $HOME/homebrew/include -I /usr/X11/include" LDFLAGS="-L$HOME/homebrew/lib -framework Cocoa"  TIFF_LIBS="-ltiff -ljpeg -lz" JPEG_LIBS="-ljpeg" ./autogen.sh --disable-gtk-doc --prefix=${instdir} && make && make install) || exit 1
+#if [ ! -e babl ]; then
+#	(git clone https://git.gnome.org/browse/babl) || exit 1
+#fi
+#(cd babl && CC="/usr/bin/gcc" CFLAGS="-I $HOME/homebrew/include -I /usr/X11/include" CXXFLAGS="-I $HOME/homebrew/include -I /usr/X11/include" LDFLAGS="-L$HOME/homebrew/lib -framework Cocoa"  TIFF_LIBS="-ltiff -ljpeg -lz" JPEG_LIBS="-ljpeg" ./autogen.sh --disable-gtk-doc --prefix=${instdir} && make && make install) || exit 1
 
-if [ ! -e gegl ]; then
-	(git clone https://git.gnome.org/browse/gegl) || exit 1
-fi
-(cd gegl && CC="clang -I $HOME/homebrew/include -I /usr/X11/include" CFLAGS="-I $HOME/homebrew/include -I /usr/X11/include" CXXFLAGS="-I $HOME/homebrew/include -I /usr/X11/include" LDFLAGS="-L$HOME/homebrew/lib -framework Cocoa"  TIFF_LIBS="-ltiff -ljpeg -lz" JPEG_LIBS="-ljpeg" ./autogen.sh --disable-gtk-doc --prefix=${instdir} --enable-introspection=no && make V=1 && make install) || exit 1
+#if [ ! -e gegl ]; then
+#	(git clone https://git.gnome.org/browse/gegl) || exit 1
+#fi
+#(cd gegl && CC="clang -I $HOME/homebrew/include -I /usr/X11/include" CFLAGS="-I $HOME/homebrew/include -I /usr/X11/include" CXXFLAGS="-I $HOME/homebrew/include -I /usr/X11/include" LDFLAGS="-L$HOME/homebrew/lib -framework Cocoa"  TIFF_LIBS="-ltiff -ljpeg -lz" JPEG_LIBS="-ljpeg" ./autogen.sh --disable-gtk-doc --prefix=${instdir} --enable-introspection=no && make V=1 && make install) || exit 1
 
 #exit
 
