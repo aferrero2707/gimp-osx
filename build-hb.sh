@@ -29,7 +29,8 @@ which autopoint
 which gcc
 which libtool
 $HOME/homebrew/bin/pkg-config --exists --print-errors "pygtk-2.0 >= 2.10.4"
-#exit
+ls $HOME/homebrew/Cellar/exiv2/0.26/lib
+exit
 
 
 if [ ! -e libmypaint-1.3.0 ]; then
