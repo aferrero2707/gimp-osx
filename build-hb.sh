@@ -20,6 +20,8 @@ export LIBRARY_PATH="$LD_LIBRARY_PATH"
 
 export LIBTOOLIZE=glibtoolize
 
+brew install intltool
+
 which autopoint
 which gcc
 which libtool
