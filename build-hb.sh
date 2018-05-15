@@ -20,7 +20,8 @@ export LIBRARY_PATH="$LD_LIBRARY_PATH"
 
 export LIBTOOLIZE=glibtoolize
 
-brew install intltool gettext
+brew install intltool gettext json-glib
+brew info json-glib glib
 
 ls $HOME/homebrew/opt
 ls $HOME/homebrew/opt/gettext/bin
