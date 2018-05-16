@@ -16,8 +16,9 @@ env:
 before_script:
 - (cd $HOME && curl -L $CACHEURL -O && tar xzf $CACHEFILE && rm -f $CACHEFILE)
 - ./build-hb.sh
+- ./package-gimp-hb.sh
 - wget -c https://github.com/aferrero2707/uploadtool/raw/master/upload_rotate.sh
-#- bash  ./upload_rotate.sh "continuous" $HOME/gimp-osx-*.dmg > /dev/null;
+- bash  ./upload_rotate.sh "continuous" $HOME/gimp-osx-*.dmg > /dev/null;
 
 
 branches:

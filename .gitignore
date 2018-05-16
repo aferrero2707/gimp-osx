@@ -1,1 +1,4 @@
 build
+inst
+Info.plist
+script.sed
