@@ -15,7 +15,7 @@ env:
   CACHEURL=https://github.com/aferrero2707/pf-build-osx/releases/download/continuous/$CACHEFILE
 before_script:
 - ls /usr/local/bin
-- mv /usr/local /usr/local_
+- sudo mv /usr/local /usr/local_
 - (cd $HOME && curl -L $CACHEURL -O && tar xzf $CACHEFILE && rm -f $CACHEFILE)
 - ./build-hb.sh
 - ./package-gimp-hb.sh
