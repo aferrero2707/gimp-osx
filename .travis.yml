@@ -15,6 +15,7 @@ env:
   CACHEURL=https://github.com/aferrero2707/pf-build-osx/releases/download/continuous/$CACHEFILE
 before_script:
 - ls /usr/local/bin
+- sudo mv /usr/local/bin /usr/local/bin_
 - sudo mv /usr/local/lib /usr/local/lib_
 - (cd $HOME && curl -L $CACHEURL -O && tar xzf $CACHEFILE && rm -f $CACHEFILE)
 - ./build-hb.sh
