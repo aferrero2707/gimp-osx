@@ -27,6 +27,7 @@ HOMEBREW_NO_AUTO_UPDATE=1 brew info json-glib glib glib-networking gexiv2
 
 ls $HOME/homebrew/opt
 ls $HOME/homebrew/opt/gettext/bin
+ls $HOME/homebrew/bin
 which autopoint
 which gcc
 which libtool
