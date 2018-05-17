@@ -11,12 +11,13 @@ env:
   PATH=$HOME/homebrew/opt/python/libexec/bin:$HOME/homebrew/bin:$PATH
   LD_LIBRARY_PATH=$HOME/homebrew/lib:$LD_LIBRARY_PATH
   PKG_CONFIG_PATH=$HOME/homebrew/lib/pkgconfig:$PKG_CONFIG_PATH
-  CACHEFILE=homebrew-cache-pf-step6.tar.gz
+  CACHEFILE=homebrew-cache-pf-step4.tar.gz
   CACHEURL=https://github.com/aferrero2707/pf-build-osx/releases/download/continuous/$CACHEFILE
 before_script:
 - ls /usr/local/bin
 - sudo mv /usr/local/bin /usr/local/bin_
 - sudo mv /usr/local/lib /usr/local/lib_
+- sudo mv /usr/local/opt /usr/local/opt_
 - (cd $HOME && curl -L $CACHEURL -O && tar xzf $CACHEFILE && rm -f $CACHEFILE)
 - ./build-hb.sh
 - ./package-gimp-hb.sh
