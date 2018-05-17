@@ -20,7 +20,8 @@ before_script:
 - sudo mv /usr/local/opt /usr/local/opt_
 - (cd $HOME && curl -L $CACHEURL -O && tar xzf $CACHEFILE && rm -f $CACHEFILE)
 - ls $HOME/homebrew/Cellar/exiv2/0.26/lib
-- find / -name "*exiv2*"
+- find $HOME -name "*exiv2*"
+- find /usr -name "*exiv2*"
 - ./build-hb.sh
 - ./package-gimp-hb.sh
 - wget -c https://github.com/aferrero2707/uploadtool/raw/master/upload_rotate.sh
