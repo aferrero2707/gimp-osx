@@ -20,7 +20,7 @@ export LIBRARY_PATH="$LD_LIBRARY_PATH"
 
 export LIBTOOLIZE=glibtoolize
 
-HOMEBREW_NO_AUTO_UPDATE=1 brew install intltool gettext json-glib glib-networking gexiv2
+HOMEBREW_NO_AUTO_UPDATE=1 brew install intltool gettext json-c json-glib glib-networking gexiv2
 HOMEBREW_NO_AUTO_UPDATE=1 brew info json-glib glib glib-networking gexiv2
 #HOMEBREW_NO_AUTO_UPDATE=1 brew install --HEAD babl
 #HOMEBREW_NO_AUTO_UPDATE=1 brew install --HEAD gegl
