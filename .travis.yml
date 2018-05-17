@@ -20,6 +20,7 @@ before_script:
 - sudo mv /usr/local/opt /usr/local/opt_
 - (cd $HOME && curl -L $CACHEURL -O && tar xzf $CACHEFILE && rm -f $CACHEFILE)
 - ls $HOME/homebrew/Cellar/exiv2/0.26/lib
+- nm -g --demangle $HOME/homebrew/Cellar/exiv2/0.26/lib/libexiv2.dylib  | grep Factory
 - find $HOME -name "*exiv2*"
 - sudo find /usr -name "*exiv2*"
 - ./build-hb.sh
