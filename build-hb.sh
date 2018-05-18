@@ -28,16 +28,17 @@ HOMEBREW_NO_AUTO_UPDATE=1 brew install intltool gettext json-c json-glib glib-ne
 HOMEBREW_NO_AUTO_UPDATE=1 brew info json-glib glib glib-networking gexiv2
 #HOMEBREW_NO_AUTO_UPDATE=1 brew install --HEAD babl
 #HOMEBREW_NO_AUTO_UPDATE=1 brew install --HEAD gegl
+HOMEBREW_NO_AUTO_UPDATE=1 brew info gcc
 
-ls $HOME/homebrew/opt
-ls $HOME/homebrew/opt/gettext/bin
-ls $HOME/homebrew/bin
+#ls $HOME/homebrew/opt
+#ls $HOME/homebrew/opt/gettext/bin
+#ls $HOME/homebrew/bin
 which autopoint
 which gcc
 which libtool
-$HOME/homebrew/bin/pkg-config --exists --print-errors "pygtk-2.0 >= 2.10.4"
-ls $HOME/homebrew/Cellar/exiv2/0.26/lib
-#exit
+#$HOME/homebrew/bin/pkg-config --exists --print-errors "pygtk-2.0 >= 2.10.4"
+#ls $HOME/homebrew/Cellar/exiv2/0.26/lib
+exit
 
 
 if [ ! -e libmypaint-1.3.0 ]; then
