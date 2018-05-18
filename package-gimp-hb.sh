@@ -209,11 +209,11 @@ gimp_src_dir=$(pkg-config --variable=gimplibdir gimp-2.0)
 gimp_dst_dir="$dst_prefix/lib/gimp/2.0"
 mkdir -p "$gimp_dst_dir"
 cp -a "$gimp_src_dir/"* "$gimp_dst_dir"
-#for l in "$dst_prefix/lib/gimp/2.0"/*; do
-#  echo "Fixing dependencies of \"$l\""
-#  chmod u+w "$l"
-#  $bdir/tools/macdylibbundler/dylibbundler -of -b -x "$l" -d $dst_prefix/lib -p @loader_path/../lib > /dev/null
-#done
+for l in "$dst_prefix/lib/gimp/2.0"/*; do
+  echo "Fixing dependencies of \"$l\""
+  chmod u+w "$l"
+  $bdir/tools/macdylibbundler/dylibbundler -of -b -x "$l" -d $dst_prefix/lib -p @loader_path/../lib > /dev/null
+done
 
 
 #for l in "$dst_prefix/lib"/*.dylib; do
