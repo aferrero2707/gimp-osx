@@ -71,4 +71,4 @@ fi
 if [ ! -e gimp ]; then
 	(git clone http://git.gnome.org/browse/gimp) || exit 1
 fi
-(cd gimp && CFLAGS="-I $HOME/homebrew/include -I /usr/X11/include -framework Cocoa" CXXFLAGS="-I $HOME/homebrew/include -I /usr/X11/include -framework Cocoa" LDFLAGS="-L$HOME/homebrew/lib -framework Cocoa"  TIFF_LIBS="-ltiff -ljpeg -lz" JPEG_LIBS="-ljpeg" ./autogen.sh --disable-gtk-doc --prefix=${instdir} && make install) || exit 1
+(cd gimp && CFLAGS="-I $HOME/homebrew/include -I /usr/X11/include" CXXFLAGS="-I $HOME/homebrew/include -I /usr/X11/include" LDFLAGS="-L$HOME/homebrew/lib -framework Cocoa"  TIFF_LIBS="-ltiff -ljpeg -lz" JPEG_LIBS="-ljpeg" ./autogen.sh --disable-gtk-doc --prefix=${instdir} && make install) || exit 1
