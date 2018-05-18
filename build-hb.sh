@@ -24,6 +24,7 @@ export CC=gcc-8
 export CXX=g++-8
 
 
+HOMEBREW_NO_AUTO_UPDATE=1 brew install --build-from-source exiv2
 HOMEBREW_NO_AUTO_UPDATE=1 brew install intltool gettext json-c json-glib glib-networking gexiv2
 HOMEBREW_NO_AUTO_UPDATE=1 brew info json-glib glib glib-networking gexiv2
 #HOMEBREW_NO_AUTO_UPDATE=1 brew install --HEAD babl
@@ -63,7 +64,7 @@ if [ ! -e gegl ]; then
 	(git clone https://git.gnome.org/browse/gegl) || exit 1
 fi
 #(cd gegl && CC="clang -I $HOME/homebrew/include -I /usr/X11/include" CFLAGS="-I $HOME/homebrew/include -I /usr/X11/include" CXXFLAGS="-I $HOME/homebrew/include -I /usr/X11/include" LDFLAGS="-L$HOME/homebrew/lib -framework Cocoa"  TIFF_LIBS="-ltiff -ljpeg -lz" JPEG_LIBS="-ljpeg" ./autogen.sh --disable-gtk-doc --prefix=${instdir} --enable-introspection=no && make V=1 && make install) || exit 1
-(cd gegl && CFLAGS="-I $HOME/homebrew/include -I /usr/X11/include" CXXFLAGS="-stdlib=libc++ -I $HOME/homebrew/include -I /usr/X11/include" LDFLAGS="-L$HOME/homebrew/lib -framework Cocoa"  TIFF_LIBS="-ltiff -ljpeg -lz" JPEG_LIBS="-ljpeg" ./autogen.sh --disable-gtk-doc --prefix=${instdir} --enable-introspection=no && make V=1 && make install) || exit 1
+(cd gegl && CFLAGS="-I $HOME/homebrew/include -I /usr/X11/include" CXXFLAGS="-I $HOME/homebrew/include -I /usr/X11/include" LDFLAGS="-L$HOME/homebrew/lib -framework Cocoa"  TIFF_LIBS="-ltiff -ljpeg -lz" JPEG_LIBS="-ljpeg" ./autogen.sh --disable-gtk-doc --prefix=${instdir} --enable-introspection=no && make V=1 && make install) || exit 1
 
 #exit
 
