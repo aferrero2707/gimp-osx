@@ -39,7 +39,7 @@ which gcc
 which libtool
 #$HOME/homebrew/bin/pkg-config --exists --print-errors "pygtk-2.0 >= 2.10.4"
 #ls $HOME/homebrew/Cellar/exiv2/0.26/lib
-exit
+#exit
 
 
 if [ ! -e libmypaint-1.3.0 ]; then
