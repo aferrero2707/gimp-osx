@@ -20,8 +20,8 @@ export LIBRARY_PATH="$LD_LIBRARY_PATH"
 
 export LIBTOOLIZE=glibtoolize
 
-export CC=gcc-8
-export CXX=g++-8
+#export CC=gcc-8
+#export CXX=g++-8
 
 
 HOMEBREW_NO_AUTO_UPDATE=1 brew reinstall --build-from-source --verbose exiv2
