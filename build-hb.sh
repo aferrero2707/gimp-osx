@@ -20,8 +20,8 @@ export LIBRARY_PATH="$LD_LIBRARY_PATH"
 
 export LIBTOOLIZE=glibtoolize
 
-export CC=gcc-4.9
-export CXX=g++-4.9
+export CC=gcc-8
+export CXX=g++-8
 
 
 HOMEBREW_NO_AUTO_UPDATE=1 brew install intltool gettext json-c json-glib glib-networking gexiv2
@@ -29,6 +29,7 @@ HOMEBREW_NO_AUTO_UPDATE=1 brew info json-glib glib glib-networking gexiv2
 #HOMEBREW_NO_AUTO_UPDATE=1 brew install --HEAD babl
 #HOMEBREW_NO_AUTO_UPDATE=1 brew install --HEAD gegl
 HOMEBREW_NO_AUTO_UPDATE=1 brew info gcc
+ls -lh $HOME/homebrew/bin/gcc*
 
 #ls $HOME/homebrew/opt
 #ls $HOME/homebrew/opt/gettext/bin
