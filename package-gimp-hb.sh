@@ -132,8 +132,15 @@ cd $wd
 
 mkdir -p $dst_prefix/bin
 cp -a $src/bin/gimp* $dst_prefix/bin
-echo "Fixing dependencies of \"$dst_prefix/bin\""
+mkdir -p $dst_prefix/lib
 $bdir/tools/macdylibbundler/dylibbundler -od -of -b -x $dst_prefix/bin/gimp -d $dst_prefix/lib -p @executable_path/../lib > $bdir/dylibbundler.log
+
+cp -a "$src/lib/libgimp"*.dylib "$dst_prefix/lib"
+for l in "$dst_prefix/lib/libgimp"*.dylib; do
+  echo "Fixing dependencies of \"$l\""
+  chmod u+w "$l"
+  $bdir/tools/macdylibbundler/dylibbundler -of -x "$l" -d $dst_prefix/lib -p @executable_path/../lib > /dev/null
+done
 cp -a $src/share $src/etc $dst_prefix
 cp -a $src2/share $src2/etc $dst_prefix
 
@@ -155,7 +162,7 @@ sed -i -e "s|$gdk_pixbuf_src_moduledir|@executable_path/../lib/gdk-pixbuf-2.0/lo
 for l in "$gdk_pixbuf_dst_moduledir"/*.so; do
   echo "Fixing dependencies of \"$l\""
   chmod u+w "$l"
-  $bdir/tools/macdylibbundler/dylibbundler -of -b -x "$l" -d $dst_prefix/lib -p @loader_path/../lib > /dev/null
+  $bdir/tools/macdylibbundler/dylibbundler -of -b -x "$l" -d $dst_prefix/lib -p @executable_path/../lib > /dev/null
 done
 
 
@@ -167,7 +174,7 @@ cp -L "$gtk_engines_src_pixmap" "$gtk_engines_dst_dir"
 for l in "$gtk_engines_dst_dir"/*.so; do
   echo "Fixing dependencies of \"$l\""
   chmod u+w "$l"
-  $bdir/tools/macdylibbundler/dylibbundler -of -b -x "$l" -d $dst_prefix/lib -p @loader_path/../lib > /dev/null
+  $bdir/tools/macdylibbundler/dylibbundler -of -b -x "$l" -d $dst_prefix/lib -p @executable_path/../lib > /dev/null
 done
 
 
@@ -177,7 +184,7 @@ cp -a "$babl_src_dir/babl-0.1" "$babl_dst_dir"
 for l in "$babl_dst_dir/babl-0.1"/*.so; do
   echo "Fixing dependencies of \"$l\""
   chmod u+w "$l"
-  $bdir/tools/macdylibbundler/dylibbundler -of -b -x "$l" -d $dst_prefix/lib -p @loader_path/../lib > /dev/null
+  $bdir/tools/macdylibbundler/dylibbundler -of -b -x "$l" -d $dst_prefix/lib -p @executable_path/../lib > /dev/null
 done
 
 gegl_src_dir=$(pkg-config --variable=pluginsdir gegl-0.4)
@@ -186,7 +193,7 @@ cp -a "$gegl_src_dir" "$gegl_dst_dir"
 for l in "$gegl_dst_dir/gegl-0.4"/*.so; do
   echo "Fixing dependencies of \"$l\""
   chmod u+w "$l"
-  $bdir/tools/macdylibbundler/dylibbundler -of -b -x "$l" -d $dst_prefix/lib -p @loader_path/../lib > /dev/null
+  $bdir/tools/macdylibbundler/dylibbundler -of -b -x "$l" -d $dst_prefix/lib -p @executable_path/../lib > /dev/null
 done
 
 
@@ -212,7 +219,7 @@ cp -a "$gimp_src_dir/"* "$gimp_dst_dir"
 for l in "$dst_prefix/lib/gimp/2.0/plug-ins"/*; do
   echo "Fixing dependencies of \"$l\""
   chmod u+w "$l"
-  $bdir/tools/macdylibbundler/dylibbundler -of -x "$l" -d $dst_prefix/lib -p @loader_path/../lib > /dev/null
+  $bdir/tools/macdylibbundler/dylibbundler -of -x "$l" -d $dst_prefix/lib -p @executable_path/../lib > /dev/null
 done
 
 
