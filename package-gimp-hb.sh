@@ -135,8 +135,8 @@ cp -a $src/bin/gimp* $dst_prefix/bin
 mkdir -p $dst_prefix/lib
 $bdir/tools/macdylibbundler/dylibbundler -od -of -b -x $dst_prefix/bin/gimp -d $dst_prefix/lib -p @executable_path/../lib > $bdir/dylibbundler.log
 
-cp -L "$src/lib/libgimpui"*.dylib "$dst_prefix/lib"
-for l in "$dst_prefix/lib/libgimpui"*.dylib; do
+cp -L "$src/lib/libgimp"*-2.0.0.dylib "$dst_prefix/lib"
+for l in "$dst_prefix/lib/libgimp"*-2.0.0.dylib; do
   echo "Fixing dependencies of \"$l\""
   chmod u+w "$l"
   $bdir/tools/macdylibbundler/dylibbundler -of -x "$l" -d $dst_prefix/lib -p @executable_path/../lib > /dev/null
