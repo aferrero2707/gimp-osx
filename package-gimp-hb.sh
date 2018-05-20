@@ -197,7 +197,7 @@ $bdir/tools/macdylibbundler/dylibbundler -od -x $dst_prefix/bin/gimp -d $dst_pre
 for l in "$dst_prefix/lib/"*.dylib; do
   echo "Fixing dependencies of \"$l\""
   chmod u+w "$l"
-  $bdir/tools/macdylibbundler/dylibbundler -x "$l" -d $dst_prefix/lib -p @executable_path/../lib > /dev/null
+  $bdir/tools/macdylibbundler/dylibbundler -x -of -b "$l" -d $dst_prefix/lib -p @executable_path/../lib > /dev/null
 done
 cp -a $src/share $src/etc $dst_prefix
 cp -a $src2/share $src2/etc $dst_prefix
