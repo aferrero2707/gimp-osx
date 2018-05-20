@@ -36,6 +36,31 @@ transfer()
 	rm -f $tmpfile; 
 }
 
+
+# Copy the library dependencies of all exectuable files in the current directory
+# (it can be beneficial to run this multiple times)
+copy_deps()
+{
+  PWD=$(greadlink -f .)
+  FILES=$(find "$dst_prefix" -perm +0111 -type f -or -name *.dylib -or -name *.so.* -or -name *.so | sort | uniq )
+  for FILE in $FILES ; do
+    echo "otool -L \"${FILE}\" | grep \"$src\" | awk '{print $1}' | xargs -I '{}' echo '{}'"
+    #echo "otool -L \"${FILE}\" | grep \"$src2\" | awk '{print $1}' | xargs -I '{}' echo '{}'"
+    otool -L "${FILE}" | grep "$src" | awk '{print $1}' | xargs -I '{}' echo '{}' >> DEPSFILE
+    otool -L "${FILE}" | grep "$src2" | awk '{print $1}' | xargs -I '{}' echo '{}' >> DEPSFILE
+  done
+  DEPS=$(cat DEPSFILE | sort | uniq)
+  for FILE in $DEPS ; do
+    if [ -e $FILE ] && [[ $(greadlink -f $FILE)/ != "$dst_prefix/lib"/* ]] ; then
+      echo "cp -v -f -L $FILE \"$dst_prefix/lib\""
+      cp -v -f -L $FILE "$dst_prefix/lib" || true
+    fi
+  done
+  rm -f DEPSFILE
+  echo "copy_deps finished"
+}
+
+
 #long_version="$(date +%Y%m%d)"
 #long_version="osx-$(date +%Y%m%d)-unstable"
 #long_version="osx-$(date +%Y%m%d)_$(date +%H%M)-git-${TRAVIS_BRANCH}-${TRAVIS_COMMIT}"
@@ -122,29 +147,16 @@ rm -rf $bdir/gimp-$version.app
 
 mkdir -p $bdir/tools && cd $bdir/tools
 
-cd $bdir/tools
-rm -rf macdylibbundler
-git clone https://github.com/aferrero2707/macdylibbundler.git
-cd macdylibbundler
-make
-
-cd $wd
-
 mkdir -p $dst_prefix/bin
 cp -a $src/bin/gimp* $dst_prefix/bin
+cp -L $src2/opt/python2/bin/python $dst_prefix/bin
 mkdir -p $dst_prefix/lib
-$bdir/tools/macdylibbundler/dylibbundler -od -of -b -x $dst_prefix/bin/gimp -d $dst_prefix/lib -p @executable_path/../lib > $bdir/dylibbundler.log
 
-cp -L "$src/lib/libgimp"*-2.0.0.dylib "$dst_prefix/lib"
-for l in "$dst_prefix/lib/libgimp"*-2.0.0.dylib; do
-  echo "Fixing dependencies of \"$l\""
-  chmod u+w "$l"
-  $bdir/tools/macdylibbundler/dylibbundler -of -x "$l" -d $dst_prefix/lib -p @executable_path/../lib > /dev/null
-done
-cp -a $src/share $src/etc $dst_prefix
-cp -a $src2/share $src2/etc $dst_prefix
+gimp_src_dir=$(pkg-config --variable=gimplibdir gimp-2.0)
+gimp_dst_dir="$dst_prefix/lib/gimp/2.0"
+mkdir -p "$gimp_dst_dir"
+cp -a "$gimp_src_dir/"* "$gimp_dst_dir"
 
-#exit
 
 gdk_pixbuf_src_moduledir=$(pkg-config --variable=gdk_pixbuf_moduledir gdk-pixbuf-2.0)
 gdk_pixbuf_dst_moduledir=$dst_prefix/lib/gdk-pixbuf-2.0/loaders
@@ -159,10 +171,43 @@ echo "Copying \"$gdk_pixbuf_src_cache_file\" to \"$gdk_pixbuf_dst_cache_file\""
 cp -L "$gdk_pixbuf_src_cache_file" "$gdk_pixbuf_dst_cache_file"
 sed -i -e "s|$gdk_pixbuf_src_moduledir|@executable_path/../lib/gdk-pixbuf-2.0/loaders|g" "$gdk_pixbuf_dst_cache_file"
 
+babl_src_dir=$(pkg-config --variable=libdir babl)
+babl_dst_dir="$dst_prefix/lib"
+cp -a "$babl_src_dir/babl-0.1" "$babl_dst_dir"
+
+gegl_src_dir=$(pkg-config --variable=pluginsdir gegl-0.4)
+gegl_dst_dir="$dst_prefix/lib"
+cp -a "$gegl_src_dir" "$gegl_dst_dir"
+
+
+copy_deps; copy_deps; copy_deps;
+#exit
+
+chmod -R +w "$dst_prefix"
+
+cd $bdir/tools
+rm -rf macdylibbundler
+git clone https://github.com/aferrero2707/macdylibbundler.git
+cd macdylibbundler
+make
+cd $wd
+
+$bdir/tools/macdylibbundler/dylibbundler -od -x $dst_prefix/bin/gimp -d $dst_prefix/lib -p @executable_path/../lib > $bdir/dylibbundler.log
+
+for l in "$dst_prefix/lib/"*.dylib; do
+  echo "Fixing dependencies of \"$l\""
+  chmod u+w "$l"
+  $bdir/tools/macdylibbundler/dylibbundler -x "$l" -d $dst_prefix/lib -p @executable_path/../lib > /dev/null
+done
+cp -a $src/share $src/etc $dst_prefix
+cp -a $src2/share $src2/etc $dst_prefix
+
+#exit
+
 for l in "$gdk_pixbuf_dst_moduledir"/*.so; do
   echo "Fixing dependencies of \"$l\""
   chmod u+w "$l"
-  $bdir/tools/macdylibbundler/dylibbundler -of -b -x "$l" -d $dst_prefix/lib -p @executable_path/../lib > /dev/null
+  $bdir/tools/macdylibbundler/dylibbundler -x "$l" -d $dst_prefix/lib -p @executable_path/../lib > /dev/null
 done
 
 
@@ -174,26 +219,20 @@ cp -L "$gtk_engines_src_pixmap" "$gtk_engines_dst_dir"
 for l in "$gtk_engines_dst_dir"/*.so; do
   echo "Fixing dependencies of \"$l\""
   chmod u+w "$l"
-  $bdir/tools/macdylibbundler/dylibbundler -of -b -x "$l" -d $dst_prefix/lib -p @executable_path/../lib > /dev/null
+  $bdir/tools/macdylibbundler/dylibbundler -x "$l" -d $dst_prefix/lib -p @executable_path/../lib > /dev/null
 done
 
 
-babl_src_dir=$(pkg-config --variable=libdir babl)
-babl_dst_dir="$dst_prefix/lib"
-cp -a "$babl_src_dir/babl-0.1" "$babl_dst_dir"
 for l in "$babl_dst_dir/babl-0.1"/*.so; do
   echo "Fixing dependencies of \"$l\""
   chmod u+w "$l"
-  $bdir/tools/macdylibbundler/dylibbundler -of -b -x "$l" -d $dst_prefix/lib -p @executable_path/../lib > /dev/null
+  $bdir/tools/macdylibbundler/dylibbundler -x "$l" -d $dst_prefix/lib -p @executable_path/../lib > /dev/null
 done
 
-gegl_src_dir=$(pkg-config --variable=pluginsdir gegl-0.4)
-gegl_dst_dir="$dst_prefix/lib"
-cp -a "$gegl_src_dir" "$gegl_dst_dir"
 for l in "$gegl_dst_dir/gegl-0.4"/*.so; do
   echo "Fixing dependencies of \"$l\""
   chmod u+w "$l"
-  $bdir/tools/macdylibbundler/dylibbundler -of -b -x "$l" -d $dst_prefix/lib -p @executable_path/../lib > /dev/null
+  $bdir/tools/macdylibbundler/dylibbundler -x "$l" -d $dst_prefix/lib -p @executable_path/../lib > /dev/null
 done
 
 
@@ -212,14 +251,10 @@ gimp_dst_dir="$dst_prefix/share/gimp/locale"
 mkdir -p "$gimp_dst_dir"
 cp -a "$gimp_src_dir/"* "$gimp_dst_dir"
 
-gimp_src_dir=$(pkg-config --variable=gimplibdir gimp-2.0)
-gimp_dst_dir="$dst_prefix/lib/gimp/2.0"
-mkdir -p "$gimp_dst_dir"
-cp -a "$gimp_src_dir/"* "$gimp_dst_dir"
 for l in "$dst_prefix/lib/gimp/2.0/plug-ins"/*; do
   echo "Fixing dependencies of \"$l\""
   chmod u+w "$l"
-  $bdir/tools/macdylibbundler/dylibbundler -of -x "$l" -d $dst_prefix/lib -p @executable_path/../lib > /dev/null
+  $bdir/tools/macdylibbundler/dylibbundler -x "$l" -d $dst_prefix/lib -p @executable_path/../lib > /dev/null
 done
 
 
