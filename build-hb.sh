@@ -58,7 +58,7 @@ fi
 if [ ! -e babl ]; then
 	(git clone https://git.gnome.org/browse/babl) || exit 1
 fi
-(cd babl && CFLAGS="-march=nocona -mno-sse3 -mtune=generic -I $HOME/homebrew/include -I /usr/X11/include" CXXFLAGS="-march=nocona -mno-sse3 -mtune=generic -stdlib=libc++ -I $HOME/homebrew/include -I /usr/X11/include" LDFLAGS="-L$HOME/homebrew/lib -framework Cocoa"  TIFF_LIBS="-ltiff -ljpeg -lz" JPEG_LIBS="-ljpeg" ./autogen.sh --disable-gtk-doc --prefix=${instdir} && make && make -j 3 install) || exit 1
+(cd babl && CFLAGS="-march=nocona -mno-sse3 -mtune=generic -I $HOME/homebrew/include -I /usr/X11/include" CXXFLAGS="-march=nocona -mno-sse3 -mtune=generic -stdlib=libc++ -I $HOME/homebrew/include -I /usr/X11/include" LDFLAGS="-L$HOME/homebrew/lib -framework Cocoa"  TIFF_LIBS="-ltiff -ljpeg -lz" JPEG_LIBS="-ljpeg" ./autogen.sh --disable-gtk-doc --enable-sse3=no --enable-sse4_1=no --enable-f16c=no --enable-altivec=no --prefix=${instdir} && make && make -j 3 install) || exit 1
 
 if [ ! -e gegl ]; then
 	(git clone https://git.gnome.org/browse/gegl) || exit 1
