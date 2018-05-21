@@ -69,7 +69,7 @@ gimpversion=$(pkg-config --modversion gimp-2.0)
 gimpmajor=$(echo $gimpversion | cut -d"." -f 1)
 gimpminor=$(echo $gimpversion | cut -d"." -f 2)
 gimpmicro=$(echo $gimpversion | cut -d"." -f 3)
-long_version=osx-git-$(pkg-config --modversion gimp-2.0)-$(date +%Y%m%d)
+long_version=osx-git-dbg-$(pkg-config --modversion gimp-2.0)-$(date +%Y%m%d)
 version=${long_version}
 year=$(cd build/gimp && git log -1 --date=short --format=%cd origin/master | cut -d"-" -f 1)
 

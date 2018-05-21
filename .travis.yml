@@ -26,7 +26,7 @@ before_script:
 - ./build-hb.sh
 - ./package-gimp-hb.sh
 - wget -c https://github.com/aferrero2707/uploadtool/raw/master/remove.sh
-- bash ./remove.sh "continuous" "gimp-osx-" ".dmg"
+- bash ./remove.sh "continuous" "gimp-osx-dbg-" ".dmg"
 - wget -c https://github.com/aferrero2707/uploadtool/raw/master/upload_rotate.sh
 - bash  ./upload_rotate.sh "continuous" $HOME/gimp-osx-*.dmg > /dev/null;
 

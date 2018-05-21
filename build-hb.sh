@@ -22,8 +22,8 @@ export LIBTOOLIZE=glibtoolize
 
 export CC="gcc -march=nocona -mno-sse3 -mtune=generic -I $HOME/homebrew/include -I /usr/X11/include"
 export CXX="g++ -march=nocona -mno-sse3 -mtune=generic -I $HOME/homebrew/include -I /usr/X11/include"
-export CFLAGS="-I $HOME/homebrew/include -I /usr/X11/include"
-export CXXFLAGS="-stdlib=libc++ -I $HOME/homebrew/include -I /usr/X11/include"
+export CFLAGS="-g -O2 -I $HOME/homebrew/include -I /usr/X11/include"
+export CXXFLAGS="-g -O2 -stdlib=libc++ -I $HOME/homebrew/include -I /usr/X11/include"
 export LDFLAGS="-L$HOME/homebrew/lib -framework Cocoa"
 
 
