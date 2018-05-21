@@ -47,28 +47,28 @@ if [ ! -e libmypaint-1.3.0 ]; then
 	curl -L https://github.com/mypaint/libmypaint/releases/download/v1.3.0/libmypaint-1.3.0.tar.xz -O
 	tar xvf libmypaint-1.3.0.tar.xz
 fi
-(cd libmypaint-1.3.0 && ./configure --enable-introspection=no --prefix=${instdir} && make -j 3 install) || exit 1
+(cd libmypaint-1.3.0 && CFLAGS="-march=nocona -mno-sse3 -mtune=generic -I $HOME/homebrew/include -I /usr/X11/include" CXXFLAGS="-march=nocona -mno-sse3 -mtune=generic -stdlib=libc++ -I $HOME/homebrew/include -I /usr/X11/include" LDFLAGS="-L$HOME/homebrew/lib -framework Cocoa" ./configure --enable-introspection=no --prefix=${instdir} && make -j 3 install) || exit 1
 
 if [ ! -e mypaint-brushes ]; then
 	git clone -b v1.3.x https://github.com/Jehan/mypaint-brushes
 fi
-(cd mypaint-brushes && ./autogen.sh && ./configure --prefix=${instdir} && make -j 3 install) || exit 1
+(cd mypaint-brushes && CFLAGS="-march=nocona -mno-sse3 -mtune=generic -I $HOME/homebrew/include -I /usr/X11/include" CXXFLAGS="-march=nocona -mno-sse3 -mtune=generic -stdlib=libc++ -I $HOME/homebrew/include -I /usr/X11/include" LDFLAGS="-L$HOME/homebrew/lib -framework Cocoa" ./autogen.sh && ./configure --prefix=${instdir} && make -j 3 install) || exit 1
 
 
 if [ ! -e babl ]; then
 	(git clone https://git.gnome.org/browse/babl) || exit 1
 fi
-(cd babl && CFLAGS="-I $HOME/homebrew/include -I /usr/X11/include" CXXFLAGS="-I $HOME/homebrew/include -I /usr/X11/include" LDFLAGS="-L$HOME/homebrew/lib -framework Cocoa"  TIFF_LIBS="-ltiff -ljpeg -lz" JPEG_LIBS="-ljpeg" ./autogen.sh --disable-gtk-doc --prefix=${instdir} && make && make -j 3 install) || exit 1
+(cd babl && CFLAGS="-march=nocona -mno-sse3 -mtune=generic -I $HOME/homebrew/include -I /usr/X11/include" CXXFLAGS="-march=nocona -mno-sse3 -mtune=generic -stdlib=libc++ -I $HOME/homebrew/include -I /usr/X11/include" LDFLAGS="-L$HOME/homebrew/lib -framework Cocoa"  TIFF_LIBS="-ltiff -ljpeg -lz" JPEG_LIBS="-ljpeg" ./autogen.sh --disable-gtk-doc --prefix=${instdir} && make && make -j 3 install) || exit 1
 
 if [ ! -e gegl ]; then
 	(git clone https://git.gnome.org/browse/gegl) || exit 1
 fi
 #(cd gegl && CC="clang -I $HOME/homebrew/include -I /usr/X11/include" CFLAGS="-I $HOME/homebrew/include -I /usr/X11/include" CXXFLAGS="-I $HOME/homebrew/include -I /usr/X11/include" LDFLAGS="-L$HOME/homebrew/lib -framework Cocoa"  TIFF_LIBS="-ltiff -ljpeg -lz" JPEG_LIBS="-ljpeg" ./autogen.sh --disable-gtk-doc --prefix=${instdir} --enable-introspection=no && make V=1 && make install) || exit 1
-(cd gegl && CFLAGS="-I $HOME/homebrew/include -I /usr/X11/include" CXXFLAGS="-stdlib=libc++ -I $HOME/homebrew/include -I /usr/X11/include" LDFLAGS="-L$HOME/homebrew/lib -framework Cocoa"  TIFF_LIBS="-ltiff -ljpeg -lz" JPEG_LIBS="-ljpeg" ./autogen.sh --disable-docs --prefix=${instdir} --enable-gtk-doc-html=no --enable-introspection=no && make -j 3 install) || exit 1
+(cd gegl && CFLAGS="-march=nocona -mno-sse3 -mtune=generic -I $HOME/homebrew/include -I /usr/X11/include" CXXFLAGS="-march=nocona -mno-sse3 -mtune=generic -stdlib=libc++ -I $HOME/homebrew/include -I /usr/X11/include" LDFLAGS="-L$HOME/homebrew/lib -framework Cocoa"  TIFF_LIBS="-ltiff -ljpeg -lz" JPEG_LIBS="-ljpeg" ./autogen.sh --disable-docs --prefix=${instdir} --enable-gtk-doc-html=no --enable-introspection=no && make -j 3 install) || exit 1
 
 #exit
 
 if [ ! -e gimp ]; then
 	(git clone -b gimp-2-10 http://git.gnome.org/browse/gimp) || exit 1
 fi
-(cd gimp && CFLAGS="-I $HOME/homebrew/include -I /usr/X11/include" CXXFLAGS="-I $HOME/homebrew/include -I /usr/X11/include" LDFLAGS="-L$HOME/homebrew/lib -framework Cocoa"  TIFF_LIBS="-ltiff -ljpeg -lz" JPEG_LIBS="-ljpeg" ./autogen.sh --disable-gtk-doc --prefix=${instdir} && make -j 3 install) || exit 1
+(cd gimp && CFLAGS="-march=nocona -mno-sse3 -mtune=generic -I $HOME/homebrew/include -I /usr/X11/include" CXXFLAGS="-march=nocona -mno-sse3 -mtune=generic -stdlib=libc++ -I $HOME/homebrew/include -I /usr/X11/include" LDFLAGS="-L$HOME/homebrew/lib -framework Cocoa"  TIFF_LIBS="-ltiff -ljpeg -lz" JPEG_LIBS="-ljpeg" ./autogen.sh --disable-gtk-doc --prefix=${instdir} && make -j 3 install) || exit 1
