@@ -18,7 +18,7 @@ before_script:
 - sudo mv /usr/local/bin /usr/local/bin_
 - sudo mv /usr/local/lib /usr/local/lib_
 - sudo mv /usr/local/opt /usr/local/opt_
-- (cd $HOME && curl -L $CACHEURL -O && tar xzf $CACHEFILE && rm -f $CACHEFILE)
+- travis_wait 120 sleep infinity & (cd $HOME && curl -L $CACHEURL -O && tar xzf $CACHEFILE && rm -f $CACHEFILE)
 - ls -lh $HOME/homebrew/Cellar/exiv2/0.26/lib
 #- nm -g -C $HOME/homebrew/Cellar/exiv2/0.26/lib/libexiv2.dylib  | grep Factory
 #- find $HOME -name "*exiv2*"
